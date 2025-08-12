@@ -67,9 +67,15 @@ python viz.py
 Create a `.env` file in the project root:
 
 ```bash
-OPENAI_API_KEY=your_api_key_here
+# OpenAI API configuration for Ollama
+OPENAI_API_KEY=ollama
 BASE_URL=http://localhost:11434/v1
+
+# Optional: Set to true for more verbose logging
+DEBUG=false
 ```
+
+**Important**: When using Ollama, the `OPENAI_API_KEY` should be set to `ollama` (not a real API key), and the `BASE_URL` should point to your Ollama server.
 
 ### Ollama Setup
 
@@ -147,22 +153,33 @@ ruff check --fix .
 
 ### Common Issues
 
-1. **Ollama not responding:**
+1. **404 Page Not Found Error:**
+
+   - Ensure your `.env` file has the correct configuration:
+     ```bash
+     OPENAI_API_KEY=ollama
+     BASE_URL=http://localhost:11434/v1
+     ```
+   - Check that Ollama is running: `ollama list`
+   - Verify the model is installed: `ollama pull gpt-oss:20b`
+   - Test Ollama directly: `ollama run gpt-oss:20b`
+
+2. **Ollama not responding:**
 
    - Check if Ollama is running: `ollama list`
    - Restart the service: `sudo systemctl restart ollama`
 
-2. **Model not found:**
+3. **Model not found:**
 
    - Pull the model: `ollama pull gpt-oss:20b`
    - Check available models: `ollama list`
 
-3. **Connection refused:**
+4. **Connection refused:**
 
    - Verify Ollama is listening on the correct port: `netstat -tlnp | grep 11434`
    - Check firewall settings
 
-4. **Python import errors:**
+5. **Python import errors:**
    - Ensure virtual environment is activated
    - Reinstall dependencies: `uv sync`
 
